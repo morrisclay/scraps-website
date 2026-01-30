@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Scraps CLI installer (macOS only)
-# Usage: curl -fsSL https://scraps.sh/install.sh | bash
+# Scraps CLI installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/morrisclay/scraps-cli/master/install.sh | bash
 
 REPO="morrisclay/scraps-cli"
 BINARY_NAME="scraps"
@@ -11,10 +11,11 @@ INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 # Detect OS
 OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 case "$OS" in
+    linux*)  OS="linux" ;;
     darwin*) OS="darwin" ;;
+    msys*|mingw*|cygwin*) OS="windows" ;;
     *)
-        echo "Error: Scraps CLI currently only supports macOS"
-        echo "Linux and Windows support coming soon"
+        echo "Error: Unsupported operating system: $OS"
         exit 1
         ;;
 esac
@@ -43,7 +44,12 @@ VERSION="${LATEST_RELEASE#v}"
 echo "Latest version: ${VERSION}"
 
 # Construct download URL
-ARCHIVE_NAME="${BINARY_NAME}_${VERSION}_${OS}_${ARCH}.tar.gz"
+if [ "$OS" = "windows" ]; then
+    ARCHIVE_NAME="${BINARY_NAME}_${VERSION}_${OS}_${ARCH}.zip"
+else
+    ARCHIVE_NAME="${BINARY_NAME}_${VERSION}_${OS}_${ARCH}.tar.gz"
+fi
+
 DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${LATEST_RELEASE}/${ARCHIVE_NAME}"
 
 # Create temp directory
@@ -56,7 +62,11 @@ curl -fsSL "$DOWNLOAD_URL" -o "${TMP_DIR}/${ARCHIVE_NAME}"
 # Extract archive
 echo "Extracting..."
 cd "$TMP_DIR"
-tar -xzf "$ARCHIVE_NAME"
+if [ "$OS" = "windows" ]; then
+    unzip -q "$ARCHIVE_NAME"
+else
+    tar -xzf "$ARCHIVE_NAME"
+fi
 
 # Install binary
 echo "Installing to ${INSTALL_DIR}..."

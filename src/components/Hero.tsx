@@ -39,7 +39,7 @@ export const Hero = () => {
                   </div>
                   <div className="flex flex-col gap-1.5 px-1">
                     <div className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-tight">
-                      MACOS ONLY · NO CREDIT CARD REQUIRED
+                      NO CREDIT CARD REQUIRED
                     </div>
                     <div className="text-[10px] font-mono text-emerald-500/80 uppercase tracking-tight">
                       FREE FOREVER: 250MB STORAGE · 1GB INGRESS · 5GB EGRESS / MO

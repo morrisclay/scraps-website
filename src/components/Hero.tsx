@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Copy, Check } from 'lucide-react';
 
 export const Hero = () => {
   const [copied, setCopied] = useState(false);
-  const command = "npx scraps-cli signup";
+  const command = "curl -fsSL https://scraps.sh/install.sh | bash";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(command);
@@ -26,11 +25,11 @@ export const Hero = () => {
             </p>
             
             <div className="flex flex-col items-start gap-8 mb-16">
-                 {/* NPX One-liner */}
+                 {/* Install command */}
                 <div className="flex flex-col gap-3 w-full md:w-auto">
-                  <div 
+                  <div
                       onClick={copyToClipboard}
-                      className="group flex items-center gap-4 pl-4 pr-3 py-3 bg-white/[0.02] border border-white/10 hover:border-white/30 transition-all cursor-pointer min-w-[320px]"
+                      className="group flex items-center gap-4 pl-4 pr-3 py-3 bg-white/[0.02] border border-white/10 hover:border-white/30 transition-all cursor-pointer"
                   >
                       <span className="text-emerald-500 font-mono text-sm">$</span>
                       <span className="text-foreground font-mono text-sm flex-1">{command}</span>
@@ -40,7 +39,7 @@ export const Hero = () => {
                   </div>
                   <div className="flex flex-col gap-1.5 px-1">
                     <div className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-tight">
-                      NO CREDIT CARD REQUIRED
+                      MACOS ONLY · NO CREDIT CARD REQUIRED
                     </div>
                     <div className="text-[10px] font-mono text-emerald-500/80 uppercase tracking-tight">
                       FREE FOREVER: 250MB STORAGE · 1GB INGRESS · 5GB EGRESS / MO

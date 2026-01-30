@@ -1,5 +1,196 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, Check } from 'lucide-react';
+
+const TerminalDemo = () => {
+  const [step, setStep] = useState(0);
+  const [typedCode, setTypedCode] = useState('');
+
+  const codeToType = `export function verify(token: string) {
+  const decoded = jwt.decode(token);
+  return decoded?.exp > Date.now();
+}`;
+
+  useEffect(() => {
+    const timings = [
+      1000,  // 0: claim command appears
+      800,   // 1: claim success
+      600,   // 2: streaming indicator
+      50,    // 3-N: typing animation (per character)
+    ];
+
+    if (step === 0) {
+      const timer = setTimeout(() => setStep(1), timings[0]);
+      return () => clearTimeout(timer);
+    }
+    if (step === 1) {
+      const timer = setTimeout(() => setStep(2), timings[1]);
+      return () => clearTimeout(timer);
+    }
+    if (step === 2) {
+      const timer = setTimeout(() => setStep(3), timings[2]);
+      return () => clearTimeout(timer);
+    }
+    if (step >= 3 && typedCode.length < codeToType.length) {
+      const timer = setTimeout(() => {
+        setTypedCode(codeToType.slice(0, typedCode.length + 1));
+      }, timings[3]);
+      return () => clearTimeout(timer);
+    }
+    if (step >= 3 && typedCode.length === codeToType.length) {
+      const timer = setTimeout(() => setStep(100), 800);
+      return () => clearTimeout(timer);
+    }
+    if (step === 100) {
+      const timer = setTimeout(() => setStep(101), 600);
+      return () => clearTimeout(timer);
+    }
+    if (step === 101) {
+      const timer = setTimeout(() => setStep(102), 800);
+      return () => clearTimeout(timer);
+    }
+    if (step === 102) {
+      const timer = setTimeout(() => setStep(103), 600);
+      return () => clearTimeout(timer);
+    }
+    if (step === 103) {
+      const timer = setTimeout(() => setStep(104), 1000);
+      return () => clearTimeout(timer);
+    }
+    if (step === 104) {
+      const timer = setTimeout(() => {
+        setStep(0);
+        setTypedCode('');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [step, typedCode, codeToType]);
+
+  const renderCode = (code: string, showCursor: boolean) => {
+    const lines = code.split('\n');
+    return lines.map((line, i) => (
+      <div key={i} className="text-foreground">
+        {line.split(/(\b(?:export|function|const|return)\b)/).map((part, j) => (
+          <span key={j} className={/^(export|function|const|return)$/.test(part) ? 'text-blue-400' : ''}>
+            {part}
+          </span>
+        ))}
+        {showCursor && i === lines.length - 1 && (
+          <span className="w-2 h-4 bg-white/80 animate-pulse inline-block ml-0.5"></span>
+        )}
+      </div>
+    ));
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 border-t border-white/10 pt-8">
+      {/* Agent Terminal */}
+      <div className="flex flex-col gap-4">
+        <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+          <span className={`w-1.5 h-1.5 rounded-full ${step >= 1 && step < 102 ? 'bg-blue-500 animate-pulse' : 'bg-blue-500/50'}`}></span>
+          Agent
+        </div>
+        <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5 min-h-[280px]">
+          {step >= 0 && (
+            <div className="mb-2">
+              <span className="text-emerald-500 mr-2">$</span>
+              <span className="text-foreground">scraps claim "src/auth.ts"</span>
+            </div>
+          )}
+          {step >= 1 && (
+            <div className="text-emerald-500 mb-4">✔ Claimed for 5m</div>
+          )}
+          {step >= 2 && step < 100 && (
+            <div className="text-blue-400 mb-2">▶ Streaming to staging...</div>
+          )}
+          {step >= 3 && step < 100 && (
+            <div className="mt-2">
+              {renderCode(typedCode, true)}
+            </div>
+          )}
+          {step >= 100 && (
+            <>
+              <div className="mt-2 mb-4">
+                {renderCode(codeToType, false)}
+              </div>
+              <div className="mb-2">
+                <span className="text-emerald-500 mr-2">$</span>
+                <span className="text-foreground">git commit -am "add token verification"</span>
+              </div>
+            </>
+          )}
+          {step >= 101 && (
+            <div className="opacity-60 mb-4">
+              [main 3f8a2c1] add token verification<br/>
+              1 file changed, 4 insertions(+)
+            </div>
+          )}
+          {step >= 101 && (
+            <div className="mb-2">
+              <span className="text-emerald-500 mr-2">$</span>
+              <span className="text-foreground">scraps release "src/auth.ts"</span>
+            </div>
+          )}
+          {step >= 102 && (
+            <div className="text-emerald-500">✔ Released</div>
+          )}
+        </div>
+      </div>
+
+      {/* Observer Terminal */}
+      <div className="flex flex-col gap-4">
+        <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+          <span className={`w-1.5 h-1.5 rounded-full ${step >= 2 ? 'bg-emerald-500 animate-pulse' : 'bg-emerald-500/50'}`}></span>
+          Observer
+        </div>
+        <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5 min-h-[280px]">
+          {step >= 2 && (
+            <div className="mb-2">
+              <span className="text-emerald-500 mr-2">$</span>
+              <span className="text-foreground">scraps watch "src/auth.ts"</span>
+            </div>
+          )}
+          {step >= 2 && step < 102 && (
+            <div className="text-blue-400 mb-2">▶ Streaming from agent...</div>
+          )}
+          {step >= 3 && step < 100 && (
+            <>
+              <div className="mt-2">
+                {renderCode(typedCode, true)}
+              </div>
+              <div className="opacity-60 mt-4 text-xs">
+                ↳ offset: {typedCode.length} | live
+              </div>
+            </>
+          )}
+          {step >= 100 && step < 102 && (
+            <div className="mt-2">
+              {renderCode(codeToType, false)}
+            </div>
+          )}
+          {step >= 102 && (
+            <>
+              <div className="text-amber-400 mb-4">⚡ File released by agent</div>
+              <div className="mb-2">
+                <span className="text-emerald-500 mr-2">$</span>
+                <span className="text-foreground">git pull && tsc --noEmit</span>
+              </div>
+            </>
+          )}
+          {step >= 103 && (
+            <div className="opacity-60 mb-2">
+              Updating 3f8a2c1..a1b2c3d<br/>
+              Fast-forward<br/>
+              src/auth.ts | 4 ++++
+            </div>
+          )}
+          {step >= 104 && (
+            <div className="text-emerald-500">✔ Types verified, no errors</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const Hero = () => {
   const [copied, setCopied] = useState(false);
@@ -14,7 +205,7 @@ export const Hero = () => {
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden border-b border-white/5">
       <div className="container px-4 md:px-6 relative z-10">
-        
+
         <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 text-foreground">
             Git for <span className="text-muted-foreground">agent swarms.</span>
@@ -23,7 +214,7 @@ export const Hero = () => {
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mb-10 font-light leading-relaxed">
             A git hosting platform built for AI agents. Watch code stream in real-time, coordinate with claim/release primitives, and commit atomically. Standard git protocol, 2-4x faster than GitHub.
             </p>
-            
+
             <div className="flex flex-col items-start gap-8 mb-16">
                  {/* Install command */}
                 <div className="flex flex-col gap-3 w-full md:w-auto">
@@ -57,56 +248,7 @@ export const Hero = () => {
             </div>
         </div>
 
-        {/* Multi-Terminal Simulation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 border-t border-white/10 pt-8">
-            {/* Agent: Writing with Live Stream */}
-            <div className="flex flex-col gap-4">
-                <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                    Agent (Writing)
-                </div>
-                <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5">
-                    <div className="mb-2">
-                        <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">scraps claim "src/auth.ts"</span>
-                    </div>
-                    <div className="text-emerald-500 mb-4">✔ Claimed for 5m</div>
-
-                    <div className="opacity-60 mb-2">// Streaming to staging...</div>
-                    <div className="text-foreground mb-1">
-                        <span className="text-blue-400">export function</span> verify(token) {'{'}
-                    </div>
-                    <div className="text-foreground mb-1">
-                        &nbsp;&nbsp;<span className="text-blue-400">const</span> decoded = jwt.decode(toke<span className="w-2 h-4 bg-white/80 animate-pulse inline-block"></span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Observer: Watching Live */}
-            <div className="flex flex-col gap-4">
-                <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    Observer (Live View)
-                </div>
-                <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5">
-                    <div className="mb-2">
-                        <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">scraps watch "src/auth.ts"</span>
-                    </div>
-                    <div className="text-blue-400 mb-4">▶ Streaming from Agent...</div>
-
-                    <div className="text-foreground mb-1">
-                        <span className="text-blue-400">export function</span> verify(token) {'{'}
-                    </div>
-                    <div className="text-foreground mb-1">
-                        &nbsp;&nbsp;<span className="text-blue-400">const</span> decoded = jwt.decode(toke<span className="w-2 h-4 bg-white/80 animate-pulse inline-block"></span>
-                    </div>
-                    <div className="opacity-60 mt-4 text-xs">
-                        ↳ offset: 847 | 0.5s debounce
-                    </div>
-                </div>
-            </div>
-        </div>
+        <TerminalDemo />
       </div>
     </section>
   );

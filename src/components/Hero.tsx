@@ -30,13 +30,13 @@ const TerminalDemo = () => {
       const timer = setTimeout(() => setStep(3), timings[2]);
       return () => clearTimeout(timer);
     }
-    if (step >= 3 && typedCode.length < codeToType.length) {
+    if (step === 3 && typedCode.length < codeToType.length) {
       const timer = setTimeout(() => {
         setTypedCode(codeToType.slice(0, typedCode.length + 1));
       }, timings[3]);
       return () => clearTimeout(timer);
     }
-    if (step >= 3 && typedCode.length === codeToType.length) {
+    if (step === 3 && typedCode.length === codeToType.length) {
       const timer = setTimeout(() => setStep(100), 800);
       return () => clearTimeout(timer);
     }

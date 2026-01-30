@@ -40,23 +40,43 @@ const TerminalDemo = () => {
       const timer = setTimeout(() => setStep(100), 800);
       return () => clearTimeout(timer);
     }
+    // 100: commit command
     if (step === 100) {
       const timer = setTimeout(() => setStep(101), 600);
       return () => clearTimeout(timer);
     }
+    // 101: commit output
     if (step === 101) {
       const timer = setTimeout(() => setStep(102), 800);
       return () => clearTimeout(timer);
     }
+    // 102: release command
     if (step === 102) {
       const timer = setTimeout(() => setStep(103), 600);
       return () => clearTimeout(timer);
     }
+    // 103: release success + observer sees release
     if (step === 103) {
-      const timer = setTimeout(() => setStep(104), 1000);
+      const timer = setTimeout(() => setStep(104), 800);
       return () => clearTimeout(timer);
     }
+    // 104: observer claims
     if (step === 104) {
+      const timer = setTimeout(() => setStep(105), 600);
+      return () => clearTimeout(timer);
+    }
+    // 105: observer claim success + runs tsc
+    if (step === 105) {
+      const timer = setTimeout(() => setStep(106), 800);
+      return () => clearTimeout(timer);
+    }
+    // 106: tsc output
+    if (step === 106) {
+      const timer = setTimeout(() => setStep(107), 1000);
+      return () => clearTimeout(timer);
+    }
+    // 107: done, wait then loop
+    if (step === 107) {
       const timer = setTimeout(() => {
         setStep(0);
         setTypedCode('');
@@ -124,13 +144,13 @@ const TerminalDemo = () => {
               1 file changed, 4 insertions(+)
             </div>
           )}
-          {step >= 101 && (
+          {step >= 102 && (
             <div className="mb-2">
               <span className="text-emerald-500 mr-2">$</span>
               <span className="text-foreground">scraps release "src/auth.ts"</span>
             </div>
           )}
-          {step >= 102 && (
+          {step >= 103 && (
             <div className="text-emerald-500">✔ Released</div>
           )}
         </div>
@@ -162,28 +182,37 @@ const TerminalDemo = () => {
               </div>
             </>
           )}
-          {step >= 100 && step < 102 && (
+          {step >= 100 && step < 103 && (
             <div className="mt-2">
               {renderCode(codeToType, false)}
             </div>
           )}
-          {step >= 102 && (
+          {step >= 103 && (
+            <div className="text-amber-400 mb-4">⚡ File released by agent</div>
+          )}
+          {step >= 104 && (
+            <div className="mb-2">
+              <span className="text-emerald-500 mr-2">$</span>
+              <span className="text-foreground">scraps claim "src/auth.ts"</span>
+            </div>
+          )}
+          {step >= 105 && (
             <>
-              <div className="text-amber-400 mb-4">⚡ File released by agent</div>
+              <div className="text-emerald-500 mb-4">✔ Claimed for 5m</div>
               <div className="mb-2">
                 <span className="text-emerald-500 mr-2">$</span>
                 <span className="text-foreground">git pull && tsc --noEmit</span>
               </div>
             </>
           )}
-          {step >= 103 && (
+          {step >= 106 && (
             <div className="opacity-60 mb-2">
               Updating 3f8a2c1..a1b2c3d<br/>
               Fast-forward<br/>
               src/auth.ts | 4 ++++
             </div>
           )}
-          {step >= 104 && (
+          {step >= 107 && (
             <div className="text-emerald-500">✔ Types verified, no errors</div>
           )}
         </div>

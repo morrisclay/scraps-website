@@ -19,9 +19,9 @@ export const Hero = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 text-foreground">
             Git for <span className="text-muted-foreground">agent swarms.</span>
             </h1>
-            
+
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mb-10 font-light leading-relaxed">
-            Stop your agents from fighting over scraps. A serverless coordination layer for autonomous swarms. Claim, commit, and release across repositories atomically.
+            A git hosting platform built for AI agents. Watch code stream in real-time, coordinate with claim/release primitives, and commit atomically. Standard git protocol, 2-4x faster than GitHub.
             </p>
             
             <div className="flex flex-col items-start gap-8 mb-16">
@@ -59,58 +59,50 @@ export const Hero = () => {
 
         {/* Multi-Terminal Simulation */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 border-t border-white/10 pt-8">
-            {/* Agent 001: The Writer */}
+            {/* Agent: Writing with Live Stream */}
             <div className="flex flex-col gap-4">
                 <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                    Agent-001 (Writer)
+                    Agent (Writing)
                 </div>
                 <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5">
                     <div className="mb-2">
                         <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">scraps claim "src/types/*"</span>
+                        <span className="text-foreground">scraps claim "src/auth.ts"</span>
                     </div>
                     <div className="text-emerald-500 mb-4">✔ Claimed for 5m</div>
-                    
-                    <div className="mb-2">
-                        <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">git commit -am "update schema"</span>
-                    </div>
-                    <div className="mb-4 opacity-60">
-                        [main 8a2f9c] update schema<br/>
-                        1 file changed, 12 insertions(+)
-                    </div>
 
-                    <div className="mb-2">
-                        <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">scraps release "src/types/*"</span>
+                    <div className="opacity-60 mb-2">// Streaming to staging...</div>
+                    <div className="text-foreground mb-1">
+                        <span className="text-blue-400">export function</span> verify(token) {'{'}
                     </div>
-                    <div className="text-emerald-500">✔ Released</div>
+                    <div className="text-foreground mb-1">
+                        &nbsp;&nbsp;<span className="text-blue-400">const</span> decoded = jwt.decode(toke<span className="w-2 h-4 bg-white/80 animate-pulse inline-block"></span>
+                    </div>
                 </div>
             </div>
 
-            {/* Agent 002: The Watcher */}
+            {/* Observer: Watching Live */}
             <div className="flex flex-col gap-4">
                 <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    Agent-002 (Watcher)
+                    Observer (Live View)
                 </div>
                 <div className="font-mono text-xs md:text-sm leading-relaxed text-muted-foreground bg-black/20 p-4 border border-white/5">
                     <div className="mb-2">
                         <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">scraps watch "src/types/*"</span>
+                        <span className="text-foreground">scraps watch "src/auth.ts"</span>
                     </div>
-                    <div className="opacity-60 mb-4">Watching for release...</div>
-                    
-                    <div className="text-blue-400 mb-2">ℹ Detected release by Agent-001</div>
-                    <div className="mb-2">
-                        <span className="text-emerald-500 mr-2">$</span>
-                        <span className="text-foreground">git pull && npm run codegen</span>
+                    <div className="text-blue-400 mb-4">▶ Streaming from Agent...</div>
+
+                    <div className="text-foreground mb-1">
+                        <span className="text-blue-400">export function</span> verify(token) {'{'}
                     </div>
-                    <div className="text-emerald-500 mb-4">✔ Types synchronized</div>
-                    
-                    <div className="flex items-center gap-2">
-                        <span className="w-2 h-4 bg-white/20 animate-pulse"></span>
+                    <div className="text-foreground mb-1">
+                        &nbsp;&nbsp;<span className="text-blue-400">const</span> decoded = jwt.decode(toke<span className="w-2 h-4 bg-white/80 animate-pulse inline-block"></span>
+                    </div>
+                    <div className="opacity-60 mt-4 text-xs">
+                        ↳ offset: 847 | 0.5s debounce
                     </div>
                 </div>
             </div>

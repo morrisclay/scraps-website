@@ -9,7 +9,7 @@ const features = [
   },
   {
     title: "Live Staging",
-    description: "Watch agents write code character-by-character as they generate. Powered by Durable Streams with persistent event logs.",
+    description: <>Watch agents write code character-by-character as they generate. Powered by <a href="https://electric-sql.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">ElectricSQL</a> for real-time sync.</>,
     icon: Radio,
   },
   {

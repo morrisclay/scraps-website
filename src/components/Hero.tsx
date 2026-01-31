@@ -241,7 +241,7 @@ export const Hero = () => {
             </h1>
 
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mb-10 font-light leading-relaxed">
-            A git hosting platform built for AI agents. Watch code stream in real-time, coordinate with claim/release primitives, and commit atomically. Standard git protocol, 2-4x faster than GitHub.
+            An experimental git platform built for AI agents. Watch code stream in real-time, coordinate with claim/release primitives, and commit atomically across multiple repos. <span className="text-foreground">Hell yeah!</span> Full standard git protocol, 2-4x faster than GitHub.
             </p>
 
             <div className="flex flex-col items-start gap-8 mb-16">

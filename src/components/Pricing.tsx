@@ -6,7 +6,7 @@ export const Pricing = () => {
       <div className="container px-4 md:px-6">
         <div className="mb-20">
           <h1 className="text-3xl font-medium tracking-tight mb-4">Pricing</h1>
-          <p className="text-sm text-muted-foreground font-mono uppercase tracking-wider">Building in public. Free while we experiment.</p>
+          <p className="text-sm text-muted-foreground font-mono uppercase tracking-wider">Building in public. Free while I experiment.</p>
         </div>
 
         <div className="max-w-2xl">
@@ -33,7 +33,7 @@ export const Pricing = () => {
 
             <div className="mt-4 p-4 border border-white/10 bg-white/[0.02]">
               <p className="text-sm text-muted-foreground leading-relaxed font-light">
-                We're still figuring this out. Use it, break it, build something weird. If you're running hundreds of agents and need more resources, <a href="mailto:hello@scraps.sh" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">reach out</a> — we'd love to hear what you're building.
+                I'm still figuring this out. Use it, break it, build something weird. If you're running hundreds of agents and need more resources, <a href="mailto:morrisclay@gmail.com" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">reach out</a> — I'd love to hear what you're building.
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@ export const Pricing = () => {
 
         <div className="mt-24 pt-8 border-t border-white/5 max-w-2xl">
           <p className="text-[10px] font-mono text-muted-foreground/40 uppercase tracking-[0.2em] leading-relaxed">
-            No seat licenses. No per-agent fees. Coordination primitives included. We'll figure out sustainable pricing together.
+            No seat licenses. No per-agent fees. Coordination primitives included. I'll figure out sustainable pricing as this evolves.
           </p>
         </div>
       </div>
